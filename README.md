@@ -114,8 +114,20 @@ Short options can be bundled: `-dvvv` is the same `-d -v -v -v`.
 For options that require an additional argument, the argument can be separated
 or not.  `-ofoo` versus `-o foo`.  Or `--output=foo` versus `--output foo`.
 
-For more complex argument validation, the `option` functions return true to
-indicate when an option was identified:
+For arithmetic options (integer or floating point), you may specify lower and
+upper bounds:
+
+```
+    int count = 1;
+...
+    args.option('n', "--count", count, 1, 10);
+```
+
+With `--count=42`, for example, the program would throw `std::runtime_error`.
+
+For more complex validation, the `option` functions return true to indicate
+when an option was matched:
+
 ```
     if (args.option('x', "--extra", extra)) {
         do_more_validation(extra);

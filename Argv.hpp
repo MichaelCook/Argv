@@ -125,8 +125,8 @@ public:
 
     // Consume an arithmetic option (integer or floating point).
     //
-    // If the converted arithmetic value must be between `minimum` and
-    // `maximum` (inclusive), or else this function invokes `bad_arg`.
+    // The converted arithmetic value must be between `minimum` and `maximum`
+    // (inclusive), or else this function throws std::runtime_error.
     template <typename T,
               typename MINT = T,
               typename MAXT = T,
