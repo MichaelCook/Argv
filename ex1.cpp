@@ -7,8 +7,10 @@
 #include "Argv.hpp"
 #include <iostream>
 #include <cassert>
+#include <stdexcept>
 
 int main(int argc, char** argv)
+try
 {
     Argv args(argc, argv, R"(
 Usage: {name} [options] foo....
@@ -63,4 +65,9 @@ Options:
     for (int i = 0; i < argc; ++i)
         std::cout << "argv[" << i << "]=" << argv[i] << '\n';
     assert(argv[argc] == nullptr);
+}
+catch (std::exception& exc)
+{
+    std::clog << "caught: " << exc.what() << std::endl;
+    return EXIT_FAILURE;
 }
