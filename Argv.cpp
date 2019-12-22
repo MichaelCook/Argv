@@ -94,7 +94,7 @@ void Argv::try_help(char const* msg)
     throw std::runtime_error(msg);
 }
 
-char const* Argv::peek_arg() const
+char* Argv::peek_arg() const
 {
     if (argi_ < argc_)
         return argv_[argi_];
@@ -148,7 +148,7 @@ bool Argv::get_opt(char short_opt)
     return true;
 }
 
-char const* Argv::get_opt_with_arg(char short_opt)
+char* Argv::get_opt_with_arg(char short_opt)
 {
     if (!bundle_) {
         auto arg = peek_arg();
@@ -207,7 +207,7 @@ bool Argv::get_opt(char const* long_opt)
     return false;
 }
 
-char const* Argv::get_opt_with_arg(char const* long_opt)
+char* Argv::get_opt_with_arg(char const* long_opt)
 {
     if (bundle_)
         return nullptr;
@@ -266,6 +266,16 @@ bool Argv::counter(char short_opt, char const* long_opt, int& value)
 }
 
 bool Argv::option(char short_opt, char const* long_opt, char const*& value)
+{
+    char* v;
+    if (option(short_opt, long_opt, v)) {
+        value = v;
+        return true;
+    }
+    return false;
+}
+
+bool Argv::option(char short_opt, char const* long_opt, char*& value)
 {
     auto arg = get_opt_with_arg(short_opt);
     if (arg) {

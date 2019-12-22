@@ -21,14 +21,14 @@ class Argv {
     bool handling_option_ = false;
 
     // Non-null if we're working our way through a bundle of short options
-    char const* bundle_ = nullptr;
+    char* bundle_ = nullptr;
 
-    char const* peek_arg() const;
+    char* peek_arg() const;
     void shift_arg();
     bool get_opt(char short_opt);
-    char const* get_opt_with_arg(char short_opt);
+    char* get_opt_with_arg(char short_opt);
     bool get_opt(char const* long_opt);
-    char const* get_opt_with_arg(char const* long_opt);
+    char* get_opt_with_arg(char const* long_opt);
     void bad_arg(char short_opt, char const*);
     void bad_arg(char const* long_opt, char const*);
 
@@ -119,6 +119,7 @@ public:
     // `long_opt` may be nullptr to indicate no long form.
     bool option(char short_opt, char const* long_opt, bool& value);
     bool option(char short_opt, char const* long_opt, char const*& value);
+    bool option(char short_opt, char const* long_opt, char*& value);
 
     // Like `option` but increment `value`
     bool counter(char short_opt, char const* long_opt, int& value);

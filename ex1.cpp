@@ -31,7 +31,7 @@ Options:
 
 )");
 
-    char const* output = nullptr;
+    char* output = nullptr;
     double period = 10.0;
     bool debug = false;
     int verbosity = 0;
