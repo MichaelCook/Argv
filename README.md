@@ -147,3 +147,30 @@ A double-hyphen `--` ends argument processing.
 Any arguments after the `--` are not considered options even if they begin with a hyphen.
 
 A single hyphen `-` is always considered to be a non-option argument.
+
+## Memory Considerations
+
+The `Argv` class assumes the `argv` argument is the traditional array of pointers to legacy C strings.
+`Argv` will modify the `argv` array to remove option arguments (and update `argc` accordingly).
+`Argv` always maintains the condition that `argv[argc]==nullptr`.
+`Argv` never modifies the pointed-to strings of `argv[]`.
+
+You may safely destroy the `Argv` object after parsing is complete.
+The results of the parsing remain valid.
+In particular:
+* the `argv` array remains valid
+* all of the `argv[]` pointers remain valid
+* the value returned from `Argv::name` remains valid -- it points at or into the `argv[0]` string
+* any `char*` gotten from `option` remains valid -- it points at or into one of `argv[]` strings
+
+The `help` argument to the `Argv` constructor must remain valid at least until the `Argv` object
+is destroyed.  For example, don't do this:
+```
+    Argv args(argc, argv, std::string{...}.c_str()); // don't do this
+```
+If you must construct the help text at runtime, use a `std::string` object
+whose lifetime is greater than the `Argv` object's.
+```
+    std::string help{ ... };
+    Argv args(argc, argc, help);
+```
