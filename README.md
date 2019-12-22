@@ -162,7 +162,7 @@ In particular:
 * the `argv` array remains valid
 * all of the `argv[]` pointers remain valid
 * the value returned from `Argv::name` remains valid -- it points at or into the `argv[0]` string
-* a `char*` gotten from `option` remains valid -- it points at or into one of `argv[]` strings
+* a `char*` gotten from `option` remains valid -- it points at or into one of the original `argv[]` strings
 
 The `help_text` argument to the `Argv` constructor must remain valid at least
 until the `Argv` object is destroyed.  For example, don't do this:
