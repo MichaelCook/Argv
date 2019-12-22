@@ -52,6 +52,13 @@ After the `while` loop, `argv` contains only the non-option arguments.
 `argv[0]` is the program name.  `argv[i]` is the i'th non-option argument.
 `argv[argc]` is `nullptr`.
 
+The help text (the 3rd argument to the Argv constructor) is merely informative.
+Unlike some other argument parsers, Argv does not try to interpret this text.
+If Argv finds the `--help` or `-h` options, Argv writes this help text to
+stdout and then invokes `exit(0)`.  Argv replaces `{name}` with the
+application's name (the basename of `argv[0]` which is also available
+as `args.name()`).
+
 Next we can verify we were passed the right number of non-option arguments:
 ```
     if (argc < 2)
@@ -133,3 +140,10 @@ when an option was matched:
         do_more_validation(extra);
     }
 ```
+
+Options may appear in any order, before or after non-option arguments.
+
+A double-hyphen `--` ends argument processing.
+Any arguments after the `--` are not considered options even if they begin with a hyphen.
+
+A single hyphen `-` is always considered to be a non-option argument.
