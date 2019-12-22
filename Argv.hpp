@@ -14,7 +14,7 @@
 class Argv {
 
     int& argc_;
-    char** &argv_;
+    char** argv_;
     char const* help_text_ = nullptr;
     char const* name_ = nullptr;
     int argi_ = 0;
@@ -95,9 +95,11 @@ class Argv {
 
 public:
 
-    Argv(int& argc, char** &argv, char const* help_text);
+    Argv(int& argc, char** argv, char const* help_text);
 
-    // true if there are any more option arguments to process
+    // true if there are any more option arguments to process.
+    // May modify `argv`.
+    // Handles any `--help`, `-h` or `--` arguments.
     explicit operator bool();
 
     // The program name (the base name of argv[0])
@@ -105,7 +107,8 @@ public:
         return name_;
     }
 
-    // Output the help text to stdout and then invoke exit(0)
+    // Write the given text to stderr along with "Try --help"
+    // and then throw std::runtime_error.
     void try_help(std::string const&);
     void try_help(char const*);
 

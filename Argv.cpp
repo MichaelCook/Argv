@@ -12,7 +12,7 @@
 #include <cerrno>
 #include <iostream>
 
-Argv::Argv(int& argc, char**& argv, char const* help_text)
+Argv::Argv(int& argc, char** argv, char const* help_text)
 : argc_(argc),
   argv_(argv),
   help_text_(help_text)
