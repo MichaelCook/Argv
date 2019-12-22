@@ -50,7 +50,6 @@ That all that's needed for parsing.
 
 After the `while` loop, `argv` contains only the non-option arguments.
 `argv[0]` is the program name.  `argv[i]` is the i'th non-option argument.
-`argv[argc]` is `nullptr`.
 
 The help text (the 3rd argument to the Argv constructor) is merely informative.
 Unlike some other argument parsers, Argv does not try to interpret this text.
@@ -163,7 +162,7 @@ In particular:
 * the `argv` array remains valid
 * all of the `argv[]` pointers remain valid
 * the value returned from `Argv::name` remains valid -- it points at or into the `argv[0]` string
-* any `char*` gotten from `option` remains valid -- it points at or into one of `argv[]` strings
+* a `char*` gotten from `option` remains valid -- it points at or into one of `argv[]` strings
 
 The `help_text` argument to the `Argv` constructor must remain valid at least
 until the `Argv` object is destroyed.  For example, don't do this:
