@@ -15,7 +15,8 @@
 Argv::Argv(int& argc, char** argv, char const* help_text)
 : argc_(argc),
   argv_(argv),
-  help_text_(help_text)
+  help_text_(help_text),
+  argi_(1)
 {
     if (argc < 1 || !argv[0])
         throw std::runtime_error("invalid arguments");
@@ -25,26 +26,28 @@ Argv::Argv(int& argc, char** argv, char const* help_text)
         ++name_;
     else
         name_ = argv[0];
+}
 
-    argi_ = 1;
+void Argv::show_help() const
+{
+    // Show the help text and then exit.
+    // Replace "{name}" with `name_` in the help text.
+    static char const pattern[] = "{name}";
+    auto text = help_text_;
+    while (char const* p = strstr(text, pattern)) {
+        std::cout.write(text, p - text);
+        std::cout << name_;
+        text = p + sizeof(pattern) - 1;
+    }
+    std::cout << text;
+    exit(0);
 }
 
 Argv::operator bool()
 {
     bool ok;
-    if (option('h', "--help", ok)) {
-        // Show the help text and then exit.
-        // Replace "{name}" the `name_` in the help text.
-        static char const pattern[] = "{name}";
-        auto text = help_text_;
-        while (char const* p = strstr(text, pattern)) {
-            std::cout.write(text, p - text);
-            std::cout << name_;
-            text = p + sizeof(pattern) - 1;
-        }
-        std::cout << text;
-        exit(0);
-    }
+    if (option('h', "--help", ok))
+        show_help();
 
     if (handling_option_) {
         if (bundle_)
@@ -81,12 +84,12 @@ Argv::operator bool()
     return false;
 }
 
-void Argv::try_help(std::string const& msg)
+void Argv::try_help(std::string const& msg) const
 {
     try_help(msg.c_str());
 }
 
-void Argv::try_help(char const* msg)
+void Argv::try_help(char const* msg) const
 {
     std::clog << name() << ": " << msg
               << "\nTry '" << name() << " --help' for more information."
@@ -309,7 +312,7 @@ void Argv::bad_arg(char const* long_opt, char const* arg)
 
    https://en.cppreference.com/w/cpp/string/byte/strtoul */
 
-unsigned long long Argv::positive_strtoull(char const* nptr, char** endptr, int base)
+unsigned long long Argv::nonnegative_strtoull(char const* nptr, char** endptr, int base)
 {
     // keep the original nptr value so *endptr gets set right
     auto p = nptr;

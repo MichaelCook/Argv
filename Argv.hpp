@@ -53,7 +53,7 @@ class Argv {
         return true;
     }
 
-    static unsigned long long positive_strtoull(char const*, char **, int);
+    static unsigned long long nonnegative_strtoull(char const*, char **, int);
 
     template <typename T,
               typename MINT,
@@ -64,7 +64,7 @@ class Argv {
     {
         errno = 0;
         char* endp;
-        auto v = positive_strtoull(s, &endp, 10);
+        auto v = nonnegative_strtoull(s, &endp, 10);
         if (errno != 0 || endp == s || *endp != '\0')
             return false;
         T r = v;
@@ -109,8 +109,9 @@ public:
 
     // Write the given text to stderr along with "Try --help"
     // and then throw std::runtime_error.
-    void try_help(std::string const&);
-    void try_help(char const*);
+    void try_help(std::string const&) const __attribute__((noreturn));
+    void try_help(char const*) const __attribute__((noreturn));
+    void show_help() const __attribute__((noreturn));
 
     // Consume a `bool` or `char*` option.
     //
