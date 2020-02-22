@@ -45,8 +45,7 @@ void Argv::show_help() const
 
 Argv::operator bool()
 {
-    bool ok;
-    if (option('h', "--help", ok))
+    if (option('h', "--help"))
         show_help();
 
     if (handling_option_) {

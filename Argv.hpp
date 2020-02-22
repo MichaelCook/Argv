@@ -125,6 +125,13 @@ public:
     bool option(char short_opt, char const* long_opt, char const*& value);
     bool option(char short_opt, char const* long_opt, char*& value);
 
+    // Like bool `option` but only return true if the option was found,
+    // false otherwise
+    bool option(char short_opt, char const* long_opt) {
+        bool ok;
+        return option(short_opt, long_opt, ok);
+    }
+
     // Like `option` but increment `value`
     bool counter(char short_opt, char const* long_opt, int& value);
 
