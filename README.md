@@ -3,7 +3,7 @@
 Easy command line parsing in C++
 
 The goal is to allow easy parsing of command-line options with minimal
-boilerplate and low runtime overhead.
+boilerplate and low runtime overhead (in time & space).
 Easy things should be easy, and harder things should be possible.
 
 Example:
