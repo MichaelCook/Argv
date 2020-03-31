@@ -59,6 +59,7 @@ application's name (the basename of `argv[0]` which is also available
 as `args.name()`).
 
 Next we can verify we were passed the right number of non-option arguments:
+
 ```
     if (argc < 2)
         args.try_help("wrong usage");
@@ -66,6 +67,7 @@ Next we can verify we were passed the right number of non-option arguments:
 
 Then proceed with whatever the application would do.
 For example:
+
 ```
     if (output)
         std::cout << "Output: " << output << '\n';
@@ -84,6 +86,7 @@ For example:
 ```
 
 Running this example:
+
 ```
 $ g++ -Wall -Werror -std=c++17 ex1.cpp Argv.cpp
 $ ./a.out -vvv -o hello world
@@ -161,8 +164,10 @@ In particular:
 
 * the `argv` array remains valid
 * all of the `argv[]` pointers remain valid
-* the value returned from `Argv::name` remains valid -- it points at or into the `argv[0]` string
-* a `char*` gotten from `option` remains valid -- it points at or into one of the original `argv[]` strings
+* the value returned from `Argv::name` remains valid -- it points at
+  or into the `argv[0]` string
+* a `char*` gotten from `option` remains valid -- it points at or
+  into one of the original `argv[]` strings
 
 The `help_text` argument to the `Argv` constructor must remain valid at least
 until the `Argv` object is destroyed.  For example, don't do this:
