@@ -1,5 +1,9 @@
 CC = g++ -Wall -Werror -std=c++17
 
+.PHONY: default
+default:
+	echo "Use 'make all' to build everything and run the tests"
+
 .PHONY: all
 all: ex1 test
 
